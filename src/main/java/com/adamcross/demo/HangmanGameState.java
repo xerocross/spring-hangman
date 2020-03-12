@@ -1,19 +1,36 @@
-package com.adamcross.demo.model;
+package com.adamcross.demo;
 
+import com.adamcross.demo.model.HangmanGameLetter;
+import com.adamcross.demo.model.HangmanGameMove;
+import com.adamcross.demo.model.HangmanGameType;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import lombok.Getter;
+import lombok.Setter;
 
-public class HangmanGame {
+public class HangmanGameState {
 
-
-	public HangmanGame(Long hangmanGameId, String secretPhraseString) {
+	public HangmanGameState(Integer hangmanGameId, String secretPhraseString) {
 		attachPhrase(secretPhraseString);
 	}
 
 	@Getter
-	private Long hangmanGameId;
+	private Integer hangmanGameId;
 	private List<HangmanGameLetter> secretPhrase;
+	@Getter
+	@Setter
+	private Integer phraseId;
+
+	@Getter
+	@Setter
+	private List<HangmanGameMove> moves;
+
+	@Getter
+	private Set<String> revealedLetters = new HashSet<>();
+
+
 
 	private void attachPhrase(String secretPhraseString) {
 		secretPhrase = new ArrayList<>();
@@ -24,7 +41,7 @@ public class HangmanGame {
 		}
 	}
 
-	public void guess(String letter) {
+	private void guess(String letter) {
 		if (letter.length() != 1) {
 			throw new IllegalArgumentException();
 		}
@@ -35,6 +52,26 @@ public class HangmanGame {
 			}
 		}
 	}
+
+	public void move(HangmanGameMove move) {
+		revealedLetters.add(move.getGuessLetter());
+		this.guess(move.getGuessLetter());
+	}
+
+//
+//	public String viewSecretPhrase() {
+//		Set<String> revealedLetters = getRevealedLetters();
+//
+//		StringBuilder phraseBuilder = new StringBuilder();
+//		for (HangmanGameLetter hangmanGameLetter : secretPhrase) {
+//			if ( || hangmanGameLetter.getSecretLetter().equals(" ")) {
+//				phraseBuilder.append(hangmanGameLetter.getSecretLetter());
+//			} else {
+//				phraseBuilder.append("_");
+//			}
+//		}
+//		return phraseBuilder.toString();
+//	}
 
 	public String viewSecretPhrase() {
 		StringBuilder phraseBuilder = new StringBuilder();
