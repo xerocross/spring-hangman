@@ -9,10 +9,10 @@ import org.springframework.core.io.ClassPathResource;
 import org.yaml.snakeyaml.Yaml;
 
 @SpringBootApplication
-public class DemoApplication {
+public class SpringHangmanApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(SpringHangmanApplication.class, args);
 	}
 
 	@Bean
